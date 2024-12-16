@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RevitAddIns>
+  <AddIn Type="Command">
+    <Text>Command PFP_Scheduler</Text>
+    <Description>Some description for PFP_Scheduler</Description>
+    <Assembly>PFP_Scheduler.dll</Assembly>
+    <FullClassName>PFP_Scheduler.Command</FullClassName>
+    <ClientId>232cb406-0a1f-49a0-a48a-3f61a1f2da22</ClientId>
+    <VendorId>com.typepad.thebuildingcoder</VendorId>
+    <VendorDescription>The Building Coder, http://thebuildingcoder.typepad.com</VendorDescription>
+  </AddIn>
+  <AddIn Type="Application">
+    <Name>Application PFP_Scheduler</Name>
+    <Assembly>PFP_Scheduler.dll</Assembly>
+    <FullClassName>PFP_Scheduler.App</FullClassName>
+    <ClientId>4301ead5-ddd1-439f-8076-452b53fd773b</ClientId>
+    <VendorId>com.typepad.thebuildingcoder</VendorId>
+    <VendorDescription>The Building Coder, http://thebuildingcoder.typepad.com</VendorDescription>
+  </AddIn>
+</RevitAddIns>
