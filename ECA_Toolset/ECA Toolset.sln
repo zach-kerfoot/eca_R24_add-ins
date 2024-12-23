@@ -5,6 +5,8 @@ VisualStudioVersion = 17.9.34607.119
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PFP_Scheduler", "PFP_Scheduler\PFP_Scheduler.csproj", "{EC569EC2-F21B-4189-959A-030C7A502BB6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spool_Exchange", "Spool_Exchange\Spool_Exchange.csproj", "{93C27770-E8F4-4C4E-9CEA-0CF6AE21B980}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{EC569EC2-F21B-4189-959A-030C7A502BB6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EC569EC2-F21B-4189-959A-030C7A502BB6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EC569EC2-F21B-4189-959A-030C7A502BB6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{93C27770-E8F4-4C4E-9CEA-0CF6AE21B980}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{93C27770-E8F4-4C4E-9CEA-0CF6AE21B980}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{93C27770-E8F4-4C4E-9CEA-0CF6AE21B980}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{93C27770-E8F4-4C4E-9CEA-0CF6AE21B980}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

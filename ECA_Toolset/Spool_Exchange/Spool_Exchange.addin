@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RevitAddIns>
+  <AddIn Type="Command">
+    <Text>Command Spool_Exchange</Text>
+    <Description>Some description for Spool_Exchange</Description>
+    <Assembly>Spool_Exchange.dll</Assembly>
+    <FullClassName>Spool_Exchange.Command</FullClassName>
+    <ClientId>f7a5fd11-4633-425d-9321-9a50102d4aab</ClientId>
+    <VendorId>com.typepad.thebuildingcoder</VendorId>
+    <VendorDescription>The Building Coder, http://thebuildingcoder.typepad.com</VendorDescription>
+  </AddIn>
+  <AddIn Type="Application">
+    <Name>Application Spool_Exchange</Name>
+    <Assembly>Spool_Exchange.dll</Assembly>
+    <FullClassName>Spool_Exchange.App</FullClassName>
+    <ClientId>2dbccfe3-ca2c-46ba-b85a-2f85f3857c43</ClientId>
+    <VendorId>com.typepad.thebuildingcoder</VendorId>
+    <VendorDescription>The Building Coder, http://thebuildingcoder.typepad.com</VendorDescription>
+  </AddIn>
+</RevitAddIns>
