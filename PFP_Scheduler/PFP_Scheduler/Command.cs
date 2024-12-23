@@ -2,11 +2,14 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Text;
 using Autodesk.Revit.ApplicationServices;
 using Autodesk.Revit.Attributes;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
 using Autodesk.Revit.UI.Selection;
+using System.Windows.Forms;
+using PFP_Window;
 
 #endregion
 
@@ -22,35 +25,58 @@ namespace PFP_Scheduler
         {
             UIApplication uiapp = commandData.Application;
             UIDocument uidoc = uiapp.ActiveUIDocument;
-            Application app = uiapp.Application;
             Document doc = uidoc.Document;
 
-            // Access current selection
-
-            Selection sel = uidoc.Selection;
-
-            // Retrieve elements from database
-
-            FilteredElementCollector col
-              = new FilteredElementCollector(doc)
+            // HashSet to store unique eV_PackageId values
+            HashSet<string> uniquePackageIDs = new HashSet<string>();
+            HashSet<string> uniqueTemplateIDs = new HashSet<string>();
+            
+            // Collect elements in specific categories
+            FilteredElementCollector collector = new FilteredElementCollector(doc)
                 .WhereElementIsNotElementType()
-                .OfCategory(BuiltInCategory.INVALID)
-                .OfClass(typeof(Wall));
+                .WherePasses(new LogicalOrFilter(new ElementFilter[]
+                {
+                new ElementCategoryFilter(BuiltInCategory.OST_Conduit),
+                new ElementCategoryFilter(BuiltInCategory.OST_ConduitFitting),
+                new ElementCategoryFilter(BuiltInCategory.OST_GenericModel),
+                new ElementCategoryFilter(BuiltInCategory.OST_Assemblies)
+                }));
+            FilteredElementCollector templateCollector = new FilteredElementCollector(doc)
+                .OfClass(typeof(Autodesk.Revit.DB.View))
+                .WhereElementIsNotElementType();
 
-            // Filtered element collector is iterable
-
-            foreach (Element e in col)
+            foreach (Element elem in collector)
             {
-                Debug.Print(e.Name);
+                // Access the eV_PackageId parameter
+                Parameter packageIdParam = elem.LookupParameter("eV_PackageId");
+
+                if (packageIdParam != null && packageIdParam.StorageType == StorageType.String)
+                {
+                    string paramValue = packageIdParam.AsString();
+
+                    if (!string.IsNullOrEmpty(paramValue))
+                    {
+                 
+                        // Add unique values to HashSet
+                        uniquePackageIDs.Add(paramValue);
+                     
+                    }
+                }
             }
 
-            // Modify document within a transaction
-
-            using (Transaction tx = new Transaction(doc))
+            foreach (Element elem in templateCollector)
             {
-                tx.Start("Transaction Name");
-                tx.Commit();
+                Autodesk.Revit.DB.View view = elem as Autodesk.Revit.DB.View;
+
+                if (view != null && view.IsTemplate)
+                {
+                    uniqueTemplateIDs.Add(view.Name);
+                }
             }
+
+
+            MainWindow window = new MainWindow(uniquePackageIDs,uniqueTemplateIDs);
+            window.ShowDialog();
 
             return Result.Succeeded;
         }
