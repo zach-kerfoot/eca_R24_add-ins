@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <RevitAddIns>
   <AddIn Type="Application">
-    <Name>Application PFP_Scheduler</Name>
+    <Name>ECA PFP Scheduler</Name>
     <Assembly>PFP_Scheduler.dll</Assembly>
     <FullClassName>PFP_Scheduler.App</FullClassName>
     <ClientId>4301ead5-ddd1-439f-8076-452b53fd773b</ClientId>

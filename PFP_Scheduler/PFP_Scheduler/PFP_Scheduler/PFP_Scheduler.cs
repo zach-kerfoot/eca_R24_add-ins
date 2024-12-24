@@ -1,19 +1,13 @@
-#region Namespaces
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
+using System.Linq;
 using System.Text;
-using Autodesk.Revit.ApplicationServices;
+using System.Threading.Tasks;
 using Autodesk.Revit.Attributes;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
-using Autodesk.Revit.UI.Selection;
-using System.Windows.Forms;
-using PFP_Window;
 
-#endregion
-
-namespace PFP_Scheduler
+namespace PFP_Scheduler.PFP_Scheduler
 {
     [Transaction(TransactionMode.Manual)]
     public class Command : IExternalCommand
@@ -27,10 +21,10 @@ namespace PFP_Scheduler
             UIDocument uidoc = uiapp.ActiveUIDocument;
             Document doc = uidoc.Document;
 
-            // HashSet to store unique eV_PackageId values
+            // HashSet to store unique eV_PackageId and Templates
             HashSet<string> uniquePackageIDs = new HashSet<string>();
             HashSet<string> uniqueTemplateIDs = new HashSet<string>();
-            
+
             // Collect elements in specific categories
             FilteredElementCollector collector = new FilteredElementCollector(doc)
                 .WhereElementIsNotElementType()
@@ -56,10 +50,10 @@ namespace PFP_Scheduler
 
                     if (!string.IsNullOrEmpty(paramValue))
                     {
-                 
+
                         // Add unique values to HashSet
                         uniquePackageIDs.Add(paramValue);
-                     
+
                     }
                 }
             }
@@ -73,11 +67,6 @@ namespace PFP_Scheduler
                     uniqueTemplateIDs.Add(view.Name);
                 }
             }
-
-
-            MainWindow window = new MainWindow(uniquePackageIDs,uniqueTemplateIDs);
-            window.ShowDialog();
-
             return Result.Succeeded;
         }
     }

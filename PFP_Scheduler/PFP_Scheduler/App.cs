@@ -27,19 +27,20 @@ namespace PFP_Scheduler
             {
                 //Tab already exists
             }
-
+            //Spooling Tab
             RibbonPanel panel = a.CreateRibbonPanel("ECA Toolset", "Spooling"); //Create Ribbon in toolset
 
-            string assemblyPath = System.Reflection.Assembly.GetExecutingAssembly().Location;
-            PushButtonData buttonData = new PushButtonData(
-                "PFP_Scheduler",
-                "PFP Scheduler",
-                assemblyPath,
-                "PFP_Scheduler.Command");
+                //PFP Scheduler
+                string assemblyPath = System.Reflection.Assembly.GetExecutingAssembly().Location;
+                PushButtonData buttonData = new PushButtonData(
+                    "PFP_Scheduler",
+                    "PFP Scheduler",
+                    assemblyPath,
+                    "PFP_Scheduler.Command");
 
-            PushButton pushButton = (PushButton)panel.AddItem(buttonData);
-            pushButton.ToolTip = "Creates scheuldes for the selected PFPs";
-            pushButton.LargeImage = new BitmapImage(new Uri("pack://application:,,,/PFP_Scheduler;component/Resources/PFP_Scheduler.png"));
+                PushButton pushButton = (PushButton)panel.AddItem(buttonData);
+                pushButton.ToolTip = "Creates scheuldes for the selected PFPs";
+                pushButton.LargeImage = new BitmapImage(new Uri("pack://application:,,,/PFP_Scheduler;component/Resources/PFP_Scheduler.png", UriKind.RelativeOrAbsolute));
 
 
             return Result.Succeeded;
@@ -51,4 +52,5 @@ namespace PFP_Scheduler
         }
         
     }
+
 }
