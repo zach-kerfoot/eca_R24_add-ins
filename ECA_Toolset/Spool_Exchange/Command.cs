@@ -2,11 +2,14 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
+using System.Reflection;
 using Autodesk.Revit.ApplicationServices;
 using Autodesk.Revit.Attributes;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
 using Autodesk.Revit.UI.Selection;
+using Spool_Exchange.UI;
 
 #endregion
 
@@ -25,24 +28,13 @@ namespace Spool_Exchange
             Application app = uiapp.Application;
             Document doc = uidoc.Document;
 
-            // Access current selection
+            string assemblyDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            string htmlFilePath = Path.Combine(assemblyDirectory, "UI", "index.html");
+            TaskDialog.Show("Error", htmlFilePath);
 
-            Selection sel = uidoc.Selection;
+            BrowserWindow browserWindow = new BrowserWindow();
+            browserWindow.Show();
 
-            // Retrieve elements from database
-
-            FilteredElementCollector col
-              = new FilteredElementCollector(doc)
-                .WhereElementIsNotElementType()
-                .OfCategory(BuiltInCategory.INVALID)
-                .OfClass(typeof(Wall));
-
-            // Filtered element collector is iterable
-
-            foreach (Element e in col)
-            {
-                Debug.Print(e.Name);
-            }
 
             // Modify document within a transaction
 

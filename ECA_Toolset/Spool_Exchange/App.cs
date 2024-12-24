@@ -1,6 +1,10 @@
 #region Namespaces
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Reflection;
+using System.Security.Principal;
+using System.Windows.Media.Imaging;
 using Autodesk.Revit.ApplicationServices;
 using Autodesk.Revit.Attributes;
 using Autodesk.Revit.DB;
