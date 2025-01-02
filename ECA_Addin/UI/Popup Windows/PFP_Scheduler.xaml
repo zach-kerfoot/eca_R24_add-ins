@@ -1,0 +1,86 @@
+﻿<Window x:Class="ECA_Addin.UI.Popup_Windows.PFP_Scheduler_Window"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:fa="http://schemas.fontawesome.io/icons/"
+             xmlns:local="clr-namespace:ECA_Addin.UI.Popup_Windows"
+
+             mc:Ignorable="d" 
+             Height="750" Width="750" ResizeMode="NoResize" Title="Prefab Package Schedule Generator" >
+    <Border Padding="5" Background="#dbdbdb" >
+        <Canvas>
+
+            <DataGrid
+                Name="PFPGrid"
+                Background="#dbdbdb" 
+                Canvas.Left="0"
+                Canvas.Top="30"
+                Width="352.5"
+                >
+                <DataGrid.Columns>
+                    <DataGridCheckBoxColumn Binding="{Binding IsSelected}" />
+                </DataGrid.Columns>
+            </DataGrid>
+            <StackPanel Canvas.Left="0" Canvas.Top="0" Orientation="Horizontal">
+                <Label
+                   Content="PFPs in Project"
+                   HorizontalContentAlignment="Center"
+                   VerticalContentAlignment="Center"
+                   Height="25"
+                   Width="176"
+                   Margin="0,0,5,0"
+                   Background="#FF921B1B" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                <TextBox 
+                    Name="PFPSearchBar"
+                    TextChanged="PFPSearchBar_TextChanged"
+                    TextWrapping="Wrap"
+                    VerticalContentAlignment="Center"
+                    Width="171"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Height="25"/>
+            </StackPanel>
+            <DataGrid
+                Name="TemplateGrid"
+                Background="#dbdbdb" 
+                Canvas.Right="0"
+                Canvas.Top="30"
+                Width="352.5"
+                >
+                <DataGrid.Columns>
+                    <DataGridCheckBoxColumn Binding="{Binding IsSelected}" />
+                </DataGrid.Columns>
+            </DataGrid>
+            <StackPanel Canvas.Right="0" Canvas.Top="0" Orientation="Horizontal">
+                <Label
+                   Content="Templates in Project"
+                   HorizontalContentAlignment="Center"
+                   VerticalContentAlignment="Center"
+                   Height="25"
+                   Width="176"
+                   Margin="0,0,5,0"
+                   Background="#FF921B1B" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                <TextBox 
+                    Name="TemplateSearchBar"
+                    TextChanged="PFPSearchBar_TextChanged"
+                    TextWrapping="Wrap"
+                    VerticalContentAlignment="Center"
+                    Width="171"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Height="25"/>
+            </StackPanel>
+            <StackPanel Canvas.Bottom="0" Canvas.Right="0" Orientation="Horizontal">
+                <Button Content="Generate Schedules" Margin="2.5" Padding="10,0"  Height="25" Background="#FF921B1B"></Button>
+                <Button Content="Cancel" Margin="2.5"  Height="25" Padding="10,0" Background="#FF921B1B"></Button>
+            </StackPanel>
+            <StackPanel Canvas.Bottom="0" Canvas.Left="0" Orientation="Horizontal">
+                <Button Margin="2.5" Padding="10,0"  Height="25" Background="#FF921B1B">
+                    <fa:FontAwesome Icon="Cog" FontSize="16" VerticalAlignment="Center" />
+                </Button>
+                <Button Content="Reset" Margin="2.5"  Height="25" Padding="10,0" Background="#FF921B1B"/>
+            </StackPanel>
+        </Canvas>
+    </Border>
+</Window>

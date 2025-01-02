@@ -11,7 +11,7 @@ using Autodesk.Revit.UI.Selection;
 
 #endregion
 
-namespace Spool_Exchange
+namespace ECA_Addin
 {
     [Transaction(TransactionMode.Manual)]
     public class Spool_Exchange : IExternalCommand

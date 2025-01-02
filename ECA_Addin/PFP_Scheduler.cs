@@ -2,16 +2,18 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Text;
 using Autodesk.Revit.ApplicationServices;
 using Autodesk.Revit.Attributes;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
 using Autodesk.Revit.UI.Selection;
+using ECA_Addin.UI.Popup_Windows;
 
 #endregion
 
-namespace PFP_Scheduler
+namespace ECA_Addin
 {
     [Transaction(TransactionMode.Manual)]
     public class PFP_Scheduler : IExternalCommand
@@ -40,7 +42,7 @@ namespace PFP_Scheduler
                 new ElementCategoryFilter(BuiltInCategory.OST_Assemblies)
                 }));
             FilteredElementCollector templateCollector = new FilteredElementCollector(doc)
-                .OfClass(typeof(Autodesk.Revit.DB.View))
+                .OfClass(typeof(Autodesk.Revit.DB.ViewSchedule))
                 .WhereElementIsNotElementType();
 
             foreach (Element elem in collector)
@@ -64,15 +66,20 @@ namespace PFP_Scheduler
 
             foreach (Element elem in templateCollector)
             {
-                Autodesk.Revit.DB.View view = elem as Autodesk.Revit.DB.View;
+                Autodesk.Revit.DB.ViewSchedule view = elem as Autodesk.Revit.DB.ViewSchedule;
 
                 if (view != null && view.IsTemplate)
                 {
                     uniqueTemplateIDs.Add(view.Name);
+
                 }
             }
 
-            TaskDialog.Show("Welcome", "PFP_Scheduler");
+           
+
+            //Open window for tool
+            PFP_Scheduler_Window window = new PFP_Scheduler_Window(uniquePackageIDs, uniqueTemplateIDs);
+            window.Show();
 
             return Result.Succeeded;
         }

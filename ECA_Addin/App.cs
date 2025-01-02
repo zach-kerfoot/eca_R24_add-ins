@@ -30,27 +30,35 @@ namespace ECA_Addin
             RibbonPanel panel = a.CreateRibbonPanel("ECA Toolset", "Spooling"); //Create Ribbon in toolset
 
             string assemblyPath = System.Reflection.Assembly.GetExecutingAssembly().Location;
+            //Create Button Images
+            BitmapImage pfpSchedulerImage = new BitmapImage(new Uri("pack://application:,,,/ECA_Addin;component/UI/Button Icons/PFP_Scheduler.png"));
+            BitmapImage spoolExchangeImage = new BitmapImage(new Uri("pack://application:,,,/ECA_Addin;component/UI/Button Icons/Spool_Exchange.png"));
+
+
             // Create PushButtonData for PFP Scheduler
             PushButtonData pfpSchedulerButtonData = new PushButtonData(
                 "PFP_Scheduler",
                 "PFP\nScheduler",
                 assemblyPath,
-                "PFP_Scheduler.Command");
+                "ECA_Addin.PFP_Scheduler");
 
             // Add PFP Scheduler button to the panel
             PushButton pfpSchedulerButton = (PushButton)panel.AddItem(pfpSchedulerButtonData);
             pfpSchedulerButton.ToolTip = "Creates schedules for the selected PFPs";
+            pfpSchedulerButton.LargeImage = pfpSchedulerImage;
+            
 
             // Create PushButtonData for Spool Exchange
             PushButtonData spoolExchangeButtonData = new PushButtonData(
                 "Spool_Exchange",
                 "Spool\nExchange",
                 assemblyPath,
-                "Spool_Exchange.Command");
+                "ECA_Addin.Spool_Exchange");
 
             // Add Spool Exchange button to the panel
             PushButton spoolExchangeButton = (PushButton)panel.AddItem(spoolExchangeButtonData);
             spoolExchangeButton.ToolTip = "Facilitates exchanging spools within the model";
+            spoolExchangeButton.LargeImage = spoolExchangeImage;
 
 
 
