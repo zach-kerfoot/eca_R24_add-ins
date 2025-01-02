@@ -39,9 +39,6 @@ namespace ECA_Addin
                 new ElementCategoryFilter(BuiltInCategory.OST_GenericModel),
                 new ElementCategoryFilter(BuiltInCategory.OST_Assemblies)
                 }));
-            FilteredElementCollector templateCollector = new FilteredElementCollector(doc)
-                .OfClass(typeof(Autodesk.Revit.DB.View))
-                .WhereElementIsNotElementType();
 
             foreach (Element elem in collector)
             {
@@ -59,16 +56,6 @@ namespace ECA_Addin
                         uniquePackageIDs.Add(paramValue);
 
                     }
-                }
-            }
-
-            foreach (Element elem in templateCollector)
-            {
-                Autodesk.Revit.DB.View view = elem as Autodesk.Revit.DB.View;
-
-                if (view != null && view.IsTemplate)
-                {
-                    uniqueTemplateIDs.Add(view.Name);
                 }
             }
 
