@@ -54,7 +54,11 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml" />
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
@@ -70,6 +74,9 @@
     <Compile Include="UI\Popup Windows\PFP_Scheduler.xaml.cs">
       <DependentUpon>PFP_Scheduler.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UI\Popup Windows\Spool_Exchange.xaml.cs">
+      <DependentUpon>Spool_Exchange.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="ECA_Addin.addin" />
@@ -82,6 +89,10 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="UI\Popup Windows\PFP_Scheduler.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Popup Windows\Spool_Exchange.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
