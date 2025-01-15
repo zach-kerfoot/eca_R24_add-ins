@@ -26,13 +26,13 @@ namespace ECA_Addin.UI.Popup_Windows
             public string PackageId { get; set; }
         }
 
-        public class Template
+        public class ScheduleTemplate
         {
             public string TemplateId { get; set; }
         }
 
         private List<PrefabPackage> _pfpData;
-        private List<Template> _templateData;
+        private List<ScheduleTemplate> _templateData;
         public PFP_Scheduler_Window(HashSet<string> pfpList, HashSet<string> templateList)
         {
             InitializeComponent();
@@ -41,7 +41,7 @@ namespace ECA_Addin.UI.Popup_Windows
 
 
             _pfpData = pfpList.Select(name => new PrefabPackage { PackageId = name }).ToList() ?? new List<PrefabPackage>();
-            _templateData = templateList.Select(name => new Template { TemplateId = name }).ToList() ?? new List<Template>();
+            _templateData = templateList.Select(name => new ScheduleTemplate { TemplateId = name }).ToList() ?? new List<ScheduleTemplate>();
 
             PFPGrid.ItemsSource = _pfpData;
             TemplateGrid.ItemsSource = _templateData;

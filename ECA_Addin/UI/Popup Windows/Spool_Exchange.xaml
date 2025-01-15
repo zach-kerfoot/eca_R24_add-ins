@@ -12,7 +12,7 @@
     <Border Padding="5" Background="#dbdbdb">
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Height="175">
             <Button Name="exportButton" Height="50" Width="100" Margin="0,0,5,0" Background="#FF921B1B" Content="Export CSV" Click="ExportCSV_Click" />
-            <Button Name="importButton" Height="50" Width="100" Margin="5,0,0,0" Background="#FF921B1B" Content="Import CSV" />
+            <Button Name="importButton" Height="50" Width="100" Margin="5,0,0,0" Background="#FF921B1B" Content="Import CSV" Click="ImportCSV_Click" />
         </StackPanel>
     </Border>
 
