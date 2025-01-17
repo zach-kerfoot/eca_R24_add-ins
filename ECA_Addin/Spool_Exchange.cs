@@ -15,6 +15,7 @@ using System.Windows.Forms;
 using ECA_Addin.UI.Popup_Windows;
 using System.Threading.Tasks;
 using System.Linq;
+using static ECA_Addin.UI.Popup_Windows.PFP_Scheduler_Window;
 
 #endregion
 
@@ -24,7 +25,7 @@ namespace ECA_Addin
     public class Spool_Exchange : IExternalCommand
     {
         // HashSet to store unique eV_PackageId values
-        public static HashSet<string> uniqueSpoolIDs = new HashSet<string>();
+        public static List<string[]> spoolData = new List<string[]>();
 
         public Result Execute(
           ExternalCommandData commandData,
@@ -35,7 +36,11 @@ namespace ECA_Addin
             UIDocument uidoc = uiapp.ActiveUIDocument;
             Document doc = uidoc.Document;
 
+            // Clear existing data
+            spoolData.Clear();
 
+            // Add header row
+            spoolData.Add(new string[] { "eV_SpoolId", "Area", "eV_PackageId" });
 
             // Collect elements in specific categories
             FilteredElementCollector SpoolCollector = new FilteredElementCollector(doc)
@@ -45,27 +50,41 @@ namespace ECA_Addin
                 new ElementCategoryFilter(BuiltInCategory.OST_Conduit),
                 new ElementCategoryFilter(BuiltInCategory.OST_ConduitFitting),
                 new ElementCategoryFilter(BuiltInCategory.OST_GenericModel),
-                new ElementCategoryFilter(BuiltInCategory.OST_Assemblies)
+                new ElementCategoryFilter(BuiltInCategory.OST_Assemblies),
+                new ElementCategoryFilter(BuiltInCategory.OST_CableTray),
+                new ElementCategoryFilter(BuiltInCategory.OST_CableTrayFitting)
                 }));
+
 
             foreach (Element elem in SpoolCollector)
             {
-                // Access the eV_PackageId parameter
-                Parameter Param = elem.LookupParameter("eV_SpoolId");
+                Parameter spoolIDParam = elem.LookupParameter("eV_SpoolId");
+                Parameter areaParam = elem.LookupParameter("Area");
+                Parameter pfpParam = elem.LookupParameter("eV_PrefabPackage");
 
-                if (Param != null && Param.StorageType == StorageType.String)
+                Debug.WriteLine($"spoolIDParam: {spoolIDParam?.AsString()}, areaParam: {areaParam?.AsString()}, pfpParam: {pfpParam?.AsString()}");
+
+                if (spoolIDParam != null)
                 {
-                    string paramValue = Param.AsString();
+                    string spoolID = spoolIDParam.AsString();
+                    string area = string.IsNullOrEmpty(areaParam?.AsString()) ? "" : areaParam.AsString();
+                    string pfp = string.IsNullOrEmpty(pfpParam?.AsString()) ? "" : pfpParam.AsString();
 
-                    if (!string.IsNullOrEmpty(paramValue))
+                    Debug.WriteLine($"Processed: spoolID = {spoolID}, area = {area}, pfp = {pfp}");
+
+                    if (!string.IsNullOrEmpty(spoolID))
                     {
+                        bool isDuplicate = spoolData.Any(row =>
+                            row[0] == spoolID && row[1] == area && row[2] == pfp);
 
-                        // Add unique values to HashSet
-                        uniqueSpoolIDs.Add(paramValue);
-
+                        if (!isDuplicate)
+                        {
+                            spoolData.Add(new string[] { spoolID, area, pfp });
+                        }
                     }
                 }
             }
+
 
             if (uiapp == null)
             {
@@ -82,7 +101,8 @@ namespace ECA_Addin
 
             return Result.Succeeded;
         }
-        public class CSVImporter
+    }
+    public class CSVImporter
         {
             private string[,] importData;
 
@@ -146,58 +166,68 @@ namespace ECA_Addin
         }
 
 
-        public class CsvGenerator
+    public class CsvGenerator
+    {
+        // Property to store the 2D Array
+        public List<string[]> DataSet { get; set; }
+
+        // Constructor to initialize the 2D Array
+        public CsvGenerator(List<string[]> dataSet)
         {
-            // Property to store the HashSet
-            public HashSet<string> DataSet { get; private set; }
-            public String projectName{ get; private set; }
-
-            // Constructor to initialize the HashSet
-            public CsvGenerator(HashSet<string> dataSet)
+            if (dataSet == null || dataSet.Count == 0)
             {
-                DataSet = dataSet ?? throw new ArgumentNullException(nameof(dataSet), "DataSet cannot be null.");
+                throw new ArgumentException("DataSet cannot be null or empty.", nameof(dataSet));
             }
 
-            // Method to generate the CSV file
-            public void GenerateCsv(string filePath, string delimiter = ",")
+            DataSet = dataSet;
+        }
+
+        // Method to generate the CSV file
+        public void GenerateCsv(string filePath, string delimiter = ",")
+        {
+            if (string.IsNullOrWhiteSpace(filePath))
             {
-                if (string.IsNullOrWhiteSpace(filePath))
-                {
-                    throw new ArgumentException("File path cannot be null or whitespace.", nameof(filePath));
-                }
-
-                // Use StringBuilder for efficiency
-                StringBuilder csvContent = new StringBuilder();
-                csvContent.AppendLine("eV_SpoolID");
-
-                foreach (var item in DataSet)
-                {
-                    csvContent.AppendLine(item.Replace(delimiter, " ")); // Ensure delimiter safety
-                }
-
-                // Write to file
-                File.WriteAllText(filePath, csvContent.ToString());
+                throw new ArgumentException("File path cannot be null or whitespace.", nameof(filePath));
             }
-            public void ExportCsv(string delimiter = ",")
+
+            if (DataSet == null || DataSet.Count == 0)
             {
-                using (System.Windows.Forms.SaveFileDialog saveFileDialog = new System.Windows.Forms.SaveFileDialog())
+                throw new InvalidOperationException("dataSet is empty or not initialized.");
+            }
+
+            // Use StringBuilder for efficiency
+            StringBuilder csvContent = new StringBuilder();
+
+            // Loop through the 2D array and add rows to the CSV content
+            foreach (var row in DataSet)
+            {
+                csvContent.AppendLine(string.Join(delimiter, row.Select(value => value.ToString().Replace(delimiter, " "))));
+            }
+
+
+            // Write to file
+            File.WriteAllText(filePath, csvContent.ToString());
+        }
+        public void ExportCsv(string delimiter = ",")
+        {
+            using (System.Windows.Forms.SaveFileDialog saveFileDialog = new System.Windows.Forms.SaveFileDialog())
+            {
+                string currentDate = DateTime.Now.ToString("yyyyMMdd");
+
+                saveFileDialog.Filter = "CSV files (*.csv)|*.csv";
+                saveFileDialog.Title = "Save CSV File";
+                saveFileDialog.FileName = $"{currentDate}_output.csv";
+
+
+
+                if (saveFileDialog.ShowDialog() == DialogResult.OK)
                 {
-                    string currentDate = DateTime.Now.ToString("yyyyMMdd");
-
-                    saveFileDialog.Filter = "CSV files (*.csv)|*.csv";
-                    saveFileDialog.Title = "Save CSV File";
-                    saveFileDialog.FileName = $"{currentDate}_output.csv";
-
-
-
-                    if (saveFileDialog.ShowDialog() == DialogResult.OK)
-                    {
-                        GenerateCsv(saveFileDialog.FileName, delimiter);
-                        System.Windows.Forms.MessageBox.Show("CSV file exported successfully!", "Success", MessageBoxButtons.OK);
-                    }
+                    GenerateCsv(saveFileDialog.FileName, delimiter);
+                    System.Windows.Forms.MessageBox.Show("CSV file exported successfully!", "Success", MessageBoxButtons.OK);
                 }
             }
         }
+    }
 
     }
 
@@ -332,7 +362,7 @@ namespace ECA_Addin
                                     Debug.WriteLine($"Unsupported parameter type for '{parameterName}' on element ID {element.Id}.");
                                 }
                             }
-                            catch (Exception ex)
+                            catch (Exception)
                             {
                                 Debug.WriteLine($"Error updating parameter '{parameterName}' on element ID {element.Id}");
                             }
@@ -349,5 +379,3 @@ namespace ECA_Addin
             return "Update Elements from CSV";
         }
     }
-
-}

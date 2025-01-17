@@ -41,7 +41,7 @@ namespace ECA_Addin.UI.Popup_Windows
             try
             {
                 // Access the global HashSet from the Spool_Exchange class
-                HashSet<string> spoolIDs = ECA_Addin.Spool_Exchange.uniqueSpoolIDs;
+                List<string[]> spoolIDs = ECA_Addin.Spool_Exchange.spoolData;
 
                 if (spoolIDs == null || spoolIDs.Count == 0)
                 {
@@ -50,7 +50,7 @@ namespace ECA_Addin.UI.Popup_Windows
                 }
 
                 // Instantiate CsvGenerator with the collected data
-                ECA_Addin.Spool_Exchange.CsvGenerator csvGenerator = new ECA_Addin.Spool_Exchange.CsvGenerator(spoolIDs);
+                ECA_Addin.CsvGenerator csvGenerator = new ECA_Addin.CsvGenerator(spoolIDs);
 
                 // Export the CSV
                 csvGenerator.ExportCsv();
@@ -84,6 +84,7 @@ namespace ECA_Addin.UI.Popup_Windows
                 Debug.WriteLine("Calling Raise...");
                 _externalEvent.Raise();
                 Debug.WriteLine("Raise called.");
+                this.Close();
             }
             catch (Exception ex)
             {
