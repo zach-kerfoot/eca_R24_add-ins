@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RevitAddIns>
+	<AddIn Type="Application">
+		<Name>ECA Addin</Name>
+		<Assembly>ECA_Addin.dll</Assembly>
+		<FullClassName>ECA_Addin.App</FullClassName>
+		<ClientId>4136aa32-772a-467f-bc3b-076462c248da</ClientId>
+		<VendorId>Electrical Corporation of America</VendorId>
+		<VendorDescription>ECA Add-Ins for ECA Use</VendorDescription>
+	</AddIn>
+</RevitAddIns>

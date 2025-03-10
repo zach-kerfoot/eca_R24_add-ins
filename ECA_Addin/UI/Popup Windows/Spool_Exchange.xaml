@@ -1,0 +1,20 @@
+﻿<Window x:Class="ECA_Addin.UI.Popup_Windows.Spool_Exchange"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ECA_Addin.UI.Popup_Windows"
+             mc:Ignorable="d" 
+             Height="100"
+             Width="300"
+             ResizeMode="NoResize"
+             WindowStartupLocation="CenterScreen">
+
+    <Border Padding="5" Background="#dbdbdb">
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Height="175">
+            <Button Name="exportButton" Height="50" Width="100" Margin="0,0,5,0" Background="#FF921B1B" Content="Export CSV" Click="ExportCSV_Click" />
+            <Button Name="importButton" Height="50" Width="100" Margin="5,0,0,0" Background="#FF921B1B" Content="Import CSV" Click="ImportCSV_Click" />
+        </StackPanel>
+    </Border>
+
+</Window>
