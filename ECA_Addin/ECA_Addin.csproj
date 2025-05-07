@@ -63,6 +63,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.cs" />
+    <Compile Include="Model_Clone.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
@@ -77,9 +78,15 @@
     <Compile Include="UI\Popup Windows\Spool_Exchange.xaml.cs">
       <DependentUpon>Spool_Exchange.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UI\Popup Windows\TypeMappingWindow.xaml.cs">
+      <DependentUpon>TypeMappingWindow.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="ECA_Addin.addin" />
+    <Resource Include="UI\Button Icons\Model_Clone.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="UI\Button Icons\PFP_Scheduler.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
@@ -93,6 +100,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UI\Popup Windows\Spool_Exchange.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Popup Windows\TypeMappingWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
