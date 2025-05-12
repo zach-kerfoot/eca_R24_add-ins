@@ -72,6 +72,7 @@
     <Compile Include="Spool_Exchange.cs" />
     <Compile Include="PFP_Scheduler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Type_Generator.cs" />
     <Compile Include="UI\Popup Windows\PFP_Scheduler.xaml.cs">
       <DependentUpon>PFP_Scheduler.xaml</DependentUpon>
     </Compile>

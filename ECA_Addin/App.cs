@@ -36,7 +36,7 @@ namespace ECA_Addin
             BitmapImage pfpSchedulerImage = new BitmapImage(new Uri("pack://application:,,,/ECA_Addin;component/UI/Button Icons/PFP_Scheduler.png"));
             BitmapImage spoolExchangeImage = new BitmapImage(new Uri("pack://application:,,,/ECA_Addin;component/UI/Button Icons/Spool_Exchange.png"));
             BitmapImage modelCloneImage = new BitmapImage(new Uri("pack://application:,,,/ECA_Addin;component/UI/Button Icons/Model_Clone.png"));
-
+            //BitmapImage typeGeneratorImage = new BitmapImage(new Uri("pack://application:,,,/ECA_Addin;component/UI/Button Icons/Model_Clone.png"));
 
             // Create PushButtonData for PFP Scheduler
             PushButtonData pfpSchedulerButtonData = new PushButtonData(
@@ -73,6 +73,16 @@ namespace ECA_Addin
             modelCloneButton.ToolTip = "Copy elements from linked model to current project";
             modelCloneButton.LargeImage = modelCloneImage;
 
+
+            //Create PushButtonDdata for Type_Geneartor
+            PushButtonData typeGeneratorData = new PushButtonData(
+                "Type Generator",
+                "Type\nGenerator",
+                assemblyPath,
+                "ECA_Addin.Type_Generator");
+            PushButton typeGeneratorButton = (PushButton)panel.AddItem(typeGeneratorData);
+            typeGeneratorButton.ToolTip = "Create family types from a CSV file loaded";
+            //typeGeneratorButton.LargeImage = typeGeneratorImage;
 
 
             return Result.Succeeded;
