@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Autodesk.Revit.Attributes;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.Structure;
@@ -39,7 +38,7 @@ namespace ECA_Addin
                     Document linkDoc = linkInst.GetLinkDocument();
                     Transform tf = linkInst.GetTotalTransform();
 
-                    List<ElementId> linkedElemIds = new List<ElementId>();
+                    HashSet<ElementId> linkedElemIds = new HashSet<ElementId>();
 
                     foreach (Reference r in linkedRefs)
                     {
@@ -60,7 +59,7 @@ namespace ECA_Addin
 
                     List<TypeMappingViewModel> mappingViewModels = new List<TypeMappingViewModel>();
 
-                    foreach(var group in groupedByType)
+                    foreach (var group in groupedByType)
                     {
                         Element LinkedType = linkDoc.GetElement(group.Key);
                         if (LinkedType == null || LinkedType.Category == null)
@@ -73,12 +72,26 @@ namespace ECA_Addin
                             .Where(s => s.Category != null && s.Category.Id.Value == (int)category)
                             .Cast<FamilySymbol>()
                             .ToList();
+
+                        List<FamilySymbolDisplay> displayList = hostOptions
+                            .Select(sym => new FamilySymbolDisplay
+                            {
+                                Symbol = sym,
+                                DisplayName = $"{sym.FamilyName} : {sym.Name}"
+                            })
+                            .ToList();
+
+                        foreach (var sym in hostOptions)
+                        {
+                            Debug.WriteLine($"[{sym.FamilyName}] : [{sym.Name}]");
+                        }
+
                         mappingViewModels.Add(new TypeMappingViewModel
                         {
                             SourceTypeName = sourceName,
                             LinkedTypeId = group.Key,
-                            HostTypeOptions = hostOptions,
-                            SelectedHostType = hostOptions.FirstOrDefault()
+                            HostTypeOptions = displayList,
+                            SelectedHostType = displayList.FirstOrDefault()
                         });
                     }
 
@@ -88,7 +101,7 @@ namespace ECA_Addin
                     if (!typeWindow.Confirmed)
                         return Result.Cancelled;
 
-                    Dictionary<ElementId, FamilySymbol> typeMap = mappingViewModels
+                    Dictionary<ElementId, FamilySymbolDisplay> typeMap = mappingViewModels
                         .Where(m => m.SelectedHostType != null)
                         .ToDictionary(m => m.LinkedTypeId, m => m.SelectedHostType);
 
@@ -99,14 +112,14 @@ namespace ECA_Addin
                         foreach (ElementId id in linkedElemIds)
                         {
                             Element linkedElem = linkDoc.GetElement(id);
-                            if(linkedElem == null)
+                            if (linkedElem == null)
                                 continue;
 
                             ElementId linkedTypeId = linkedElem.GetTypeId();
-                            if (!typeMap.TryGetValue(linkedTypeId, out FamilySymbol replacement))
+                            if (!typeMap.TryGetValue(linkedTypeId, out FamilySymbolDisplay display))
                                 continue;
-
-                            if(linkedElem == null) continue;
+                            FamilySymbol replacement = display.Symbol;
+                            if (linkedElem == null) continue;
 
                             LocationPoint loc = linkedElem.Location as LocationPoint;
                             if (loc == null) continue;
@@ -139,20 +152,28 @@ namespace ECA_Addin
 
             catch (Autodesk.Revit.Exceptions.OperationCanceledException) { return Result.Failed; }
 
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 TaskDialog.Show("Error", ex.Message);
                 return Result.Failed;
             }
         }
     }
+    public class FamilySymbolDisplay
+    {
+        public string DisplayName { get; set; }
+        public FamilySymbol Symbol { get; set; }
+
+        public override string ToString() => DisplayName;
+    }
+
 
     public class TypeMappingViewModel
     {
         public string SourceTypeName { get; set; }
         public ElementId LinkedTypeId { get; set; }
-        public List<FamilySymbol> HostTypeOptions { get; set; }
-        public FamilySymbol SelectedHostType { get; set; }
+        public List<FamilySymbolDisplay> HostTypeOptions { get; set; }
+        public FamilySymbolDisplay SelectedHostType { get; set; }
     }
 }
 

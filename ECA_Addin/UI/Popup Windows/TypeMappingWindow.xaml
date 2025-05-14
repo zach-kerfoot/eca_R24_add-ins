@@ -21,7 +21,11 @@
                     <DataTemplate>
                         <DockPanel Margin="0,2">
                             <TextBlock Text="{Binding SourceTypeName}" Width="250" VerticalAlignment="Center" />
-                            <ComboBox ItemsSource="{Binding HostTypeOptions}" SelectedItem="{Binding SelectedHostType}" DisplayMemberPath="Name" Width="250" Margin="10,0,0,0" />
+                            <ComboBox ItemsSource="{Binding HostTypeOptions}"
+                                SelectedItem="{Binding SelectedHostType}"
+                                Width="250" Margin="10,0,0,0"
+                                Text="{Binding DisplayName}">
+                            </ComboBox>
                         </DockPanel>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
