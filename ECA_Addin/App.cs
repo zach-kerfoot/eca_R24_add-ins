@@ -84,6 +84,16 @@ namespace ECA_Addin
             typeGeneratorButton.ToolTip = "Create family types from a CSV file loaded";
             //typeGeneratorButton.LargeImage = typeGeneratorImage;
 
+            //Create PushbuttonData for BatchLinkDWG
+            PushButtonData batchLinkDWG = new PushButtonData(
+                "Batch DWG Link",
+                "Batch\nDWG Link",
+                assemblyPath,
+                "ECA_Addin.BatchLinkDWGs");
+            PushButton batchLinkButton = (PushButton)panel.AddItem(batchLinkDWG);
+            batchLinkButton.ToolTip = "Batch Link DWGs into the project";
+
+
 
             return Result.Succeeded;
         }
