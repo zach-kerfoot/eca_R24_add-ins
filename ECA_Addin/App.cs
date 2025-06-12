@@ -85,6 +85,14 @@ namespace ECA_Addin
             //typeGeneratorButton.LargeImage = typeGeneratorImage;
 
 
+            PushButtonData dependentViewData = new PushButtonData(
+                "Dependent Views",
+                "Dependent\nViews",
+                assemblyPath,
+                "ECA_Addin.Dependent_View_Gen");
+            PushButton dependentViewButton = (PushButton)panel.AddItem(dependentViewData);
+            dependentViewButton.ToolTip = "Create dependent views based on excel file";
+
             return Result.Succeeded;
         }
 
